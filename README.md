@@ -1,34 +1,31 @@
----
-
 # 🧠 Real-Time Face Recognition System (Multi-Angle)
 
 A complete **face recognition pipeline** built using **OpenCV** that supports:
 
 * 📸 Dataset creation (multi-angle: frontal + profile)
-* 🧠 Model training using **LBPH (Local Binary Pattern Histogram)**
+* 🧠 Model training using LBPH (Local Binary Pattern Histogram)
 * 🎥 Real-time face identification via webcam
 
 ---
 
 ## 📂 Project Structure
 
-```
+```text
 dezo/
-│
-├── dataset/                  # Stores captured face images
+├── dataset/
 │   └── person_name/
 │       ├── 1.jpg
 │       ├── 2.jpg
 │       └── ...
 │
-├── models/                   # Stores trained model + labels
+├── models/
 │   ├── face_model.yml
 │   └── labels.json
 │
 ├── src/
-│   ├── dataset_creator.py    # Capture dataset
-│   ├── train_face_model.py   # Train model
-│   └── realtime_face_identification.py  # Live recognition
+│   ├── dataset_creator.py
+│   ├── train_face_model.py
+│   └── realtime_face_identification.py
 │
 └── requirements.txt
 ```
@@ -37,24 +34,24 @@ dezo/
 
 ## ⚙️ Technologies Used
 
-* **Python 3.x**
-* **OpenCV (cv2)**
-* **NumPy**
-* **JSON**
-* **Haar Cascade Classifiers**
-* **LBPH Face Recognizer**
+* Python 3.x
+* OpenCV (`cv2`)
+* NumPy
+* JSON
+* Haar Cascade Classifiers
+* LBPH Face Recognizer
 
 ---
 
-## 📦 Requirements
+## 📦 Installation
 
-Install dependencies:
+Clone the repository and install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-If `cv2.face` is missing:
+If you face issues with `cv2.face`, install:
 
 ```bash
 pip install opencv-contrib-python
@@ -62,7 +59,7 @@ pip install opencv-contrib-python
 
 ---
 
-## 📸 Step 1: Dataset Creation
+## 📸 Step 1: Create Dataset
 
 Run:
 
@@ -70,10 +67,10 @@ Run:
 python src/dataset_creator.py
 ```
 
-### 🔹 Features:
+### Features:
 
-* Captures **100 face images**
-* Supports:
+* Captures up to **100 images per person**
+* Detects:
 
   * Frontal faces
   * Left profile
@@ -81,12 +78,12 @@ python src/dataset_creator.py
 * Automatically:
 
   * Converts to grayscale
-  * Resizes to **200x200**
-  * Saves in structured folder
+  * Resizes to 200x200
+  * Saves in structured folders
 
-### 🔹 Output:
+### Output Example:
 
-```
+```text
 dataset/
 └── Shivam/
     ├── 1.jpg
@@ -104,21 +101,21 @@ Run:
 python src/train_face_model.py
 ```
 
-### 🔹 What happens:
+### What it does:
 
 * Loads dataset images
 * Assigns numeric labels to each person
-* Trains **LBPH Face Recognizer**
+* Trains LBPH face recognizer
 
-### 🔹 Output:
+### Output:
 
-```
+```text
 models/
 ├── face_model.yml
 └── labels.json
 ```
 
-### 🔹 Example labels.json:
+### Example `labels.json`:
 
 ```json
 {
@@ -137,7 +134,7 @@ Run:
 python src/realtime_face_identification.py
 ```
 
-### 🔹 Features:
+### Features:
 
 * Detects faces using:
 
@@ -148,35 +145,34 @@ python src/realtime_face_identification.py
 
   * Name
   * Confidence score
-  * FPS
+  * FPS (frames per second)
 
 ---
 
 ## 🧠 How It Works
 
-### 1. Face Detection
+### Face Detection
 
-Uses Haar Cascades:
+Uses Haar Cascade XML files:
 
 * `haarcascade_frontalface_default.xml`
 * `haarcascade_profileface.xml`
 
-### 2. Multi-Angle Detection
+### Multi-Angle Detection
 
-* Left profile → direct detection
-* Right profile → image flipped → detection → coordinates corrected
+* Left profile → detected directly
+* Right profile → image flipped → detected → coordinates corrected
 
-### 3. Face Recognition
+### Face Recognition
 
-Uses:
-👉 **LBPH (Local Binary Pattern Histogram)**
+Uses **LBPH (Local Binary Pattern Histogram)**:
 
-* Robust to lighting changes
-* Works well for real-time systems
-* Outputs:
+* Works well in real-time
+* Handles lighting variations
+* Returns:
 
-  * `label`
-  * `confidence` (lower = better)
+  * Label (person)
+  * Confidence (lower = better match)
 
 ---
 
@@ -186,29 +182,27 @@ Uses:
 CONFIDENCE_THRESHOLD = 60
 ```
 
-* **< 60 → Recognized**
-* **> 60 → Unknown**
+* Less than 60 → Recognized
+* Greater than 60 → Unknown
 
-👉 You can tune this value for better accuracy.
+You can tune this value based on accuracy needs.
 
 ---
 
 ## 🎯 Key Features
 
-✅ Multi-angle face detection
-✅ Automatic dataset organization
-✅ Real-time recognition
-✅ FPS counter
-✅ Modular structure
-✅ Easy to extend
+* Multi-angle face detection
+* Automatic dataset organization
+* Real-time recognition
+* FPS counter
+* Clean modular structure
+* Easy to extend
 
 ---
 
-## ⚠️ Common Errors & Fixes
+## ⚠️ Common Issues & Fixes
 
-### ❌ `cv2.face not found`
-
-✔ Install:
+### `cv2.face` not found
 
 ```bash
 pip install opencv-contrib-python
@@ -216,9 +210,9 @@ pip install opencv-contrib-python
 
 ---
 
-### ❌ Camera not opening
+### Camera not opening
 
-✔ Try:
+Try changing camera index:
 
 ```python
 cv2.VideoCapture(1)
@@ -226,9 +220,9 @@ cv2.VideoCapture(1)
 
 ---
 
-### ❌ Model file not found
+### Model file not found
 
-✔ Run training first:
+Make sure you run training first:
 
 ```bash
 python src/train_face_model.py
@@ -236,23 +230,21 @@ python src/train_face_model.py
 
 ---
 
-### ❌ No faces detected
+### No faces detected
 
-✔ Improve:
-
-* Lighting conditions
-* Camera quality
-* Face angle
+* Improve lighting
+* Face camera properly
+* Avoid blur
 
 ---
 
 ## 🚀 Future Improvements
 
-* 🔐 Face mask detection
-* 📊 Attendance system integration
-* ☁️ Cloud database (Firebase)
-* 📱 Mobile app integration
-* 🤖 Deep learning (CNN / FaceNet)
+* Face mask detection
+* Attendance system integration
+* Cloud database (Firebase)
+* Mobile app integration
+* Deep learning models (FaceNet, CNN)
 
 ---
 
@@ -264,13 +256,9 @@ python src/train_face_model.py
 
 ## ⭐ Tips for Best Accuracy
 
-* Capture dataset in **different lighting conditions**
-* Include:
-
-  * Front
-  * Left
-  * Right
-* Avoid blurry images
-* Keep face centered
+* Capture images in different lighting conditions
+* Include front, left, and right angles
+* Keep face clearly visible
+* Avoid motion blur
 
 ---
